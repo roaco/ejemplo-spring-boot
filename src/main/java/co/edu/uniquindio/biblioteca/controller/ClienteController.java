@@ -1,9 +1,13 @@
 package co.edu.uniquindio.biblioteca.controller;
 
-import co.edu.uniquindio.biblioteca.dto.ClienteDto;
+import co.edu.uniquindio.biblioteca.dto.ClienteDtoGet;
+import co.edu.uniquindio.biblioteca.dto.ClienteDtoPost;
+import co.edu.uniquindio.biblioteca.dto.Respuesta;
 import co.edu.uniquindio.biblioteca.entity.Cliente;
 import co.edu.uniquindio.biblioteca.servicios.ClienteServicio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,30 +20,29 @@ public class ClienteController {
     private final ClienteServicio clienteServicio;
 
     @PostMapping
-    public Cliente save(@RequestBody Cliente cliente){
-        return clienteServicio.saveCliente(cliente);
+    public ResponseEntity<Respuesta<ClienteDtoGet>> save(@RequestBody ClienteDtoPost cliente){
+        return ResponseEntity.status(HttpStatus.CREATED).body( new Respuesta<>("Cliente creado correctamente", clienteServicio.saveCliente(cliente)) );
     }
 
     @GetMapping("/{idCliente}")
-    public ClienteDto findById(@PathVariable long idCliente){
-        return clienteServicio.findById(idCliente);
+    public ResponseEntity<Respuesta<ClienteDtoGet>> findById(@PathVariable long idCliente){
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("", clienteServicio.findById(idCliente)) );
     }
-
     @GetMapping
-    public List<ClienteDto> findAll(){
-        return clienteServicio.findAll();
+    public ResponseEntity<Respuesta<List<ClienteDtoGet>>> findAll(){
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("", clienteServicio.findAll()) );
+
     }
 
     @DeleteMapping("/{idCliente}")
-    public String delete(@PathVariable long idCliente){
+    public ResponseEntity<Respuesta<String>> delete(@PathVariable long idCliente){
         clienteServicio.deleteCliente(idCliente);
-        return "Se eliminó cliente";
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("Se eliminó correctamente") );
     }
 
-
     @PutMapping("/{idCliente}")
-    public Cliente update(@PathVariable long idCliente, @RequestBody Cliente cliente){
-        return clienteServicio.updateCliente(idCliente, cliente);
+    public ResponseEntity<Respuesta<ClienteDtoGet>> update(@PathVariable long idCliente, @RequestBody ClienteDtoPost cliente){
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("El cliente se modificó correctamente", clienteServicio.updateCliente(idCliente, cliente)) );
     }
 
 }

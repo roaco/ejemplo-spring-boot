@@ -1,6 +1,10 @@
 package co.edu.uniquindio.biblioteca.dto;
 
-import java.time.LocalDate;
+import co.edu.uniquindio.biblioteca.entity.Genero;
 
-public record LibroDto(String isbd, String nombre, String genero, int unidades, LocalDate fechaPublicacion) {
+import java.time.LocalDate;
+import java.util.List;
+
+public record LibroDto(String isbn, String nombre, Genero genero, int unidades, LocalDate fechaPublicacion, List<Long> idAutores){
+
 }

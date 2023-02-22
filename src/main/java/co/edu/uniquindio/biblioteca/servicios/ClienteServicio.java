@@ -1,6 +1,7 @@
 package co.edu.uniquindio.biblioteca.servicios;
 
-import co.edu.uniquindio.biblioteca.dto.ClienteDto;
+import co.edu.uniquindio.biblioteca.dto.ClienteDtoGet;
+import co.edu.uniquindio.biblioteca.dto.ClienteDtoPost;
 import co.edu.uniquindio.biblioteca.entity.Cliente;
 import co.edu.uniquindio.biblioteca.repo.ClienteRepo;
 import co.edu.uniquindio.biblioteca.servicios.excepciones.ClienteNoEncontradoException;
@@ -16,36 +17,48 @@ public class ClienteServicio {
 
     private final ClienteRepo clienteRepo;
 
-    public Cliente saveCliente(Cliente cliente){
-        return clienteRepo.save(cliente);
+    public ClienteDtoGet saveCliente(ClienteDtoPost cliente){
+        return convertirClienteAClienteDto(clienteRepo.save(convertir(cliente)));
     }
 
 
-    public ClienteDto findById(Long codigoCliente){
+    public ClienteDtoGet findById(Long codigoCliente){
         Cliente cliente = clienteRepo.findById(codigoCliente).orElseThrow( () -> new ClienteNoEncontradoException("El cliente no existe") );
         return convertirClienteAClienteDto(cliente);
     }
 
-    private ClienteDto convertirClienteAClienteDto(Cliente cliente){
-        return new ClienteDto(cliente.getNombre(), cliente.getEmail(), cliente.getTelefono());
+    private ClienteDtoGet convertirClienteAClienteDto(Cliente cliente){
+        return new ClienteDtoGet(cliente.getCodigo(), cliente.getNombre(), cliente.getEmail(), cliente.getTelefono());
     }
 
     public void deleteCliente(long codigoCliente){
-        clienteRepo.findById(codigoCliente).orElseThrow( () -> new ClienteNoEncontradoException("El cliente no existe") );
+        obtenerCliente(codigoCliente);
         clienteRepo.deleteById(codigoCliente);
     }
 
-    public Cliente updateCliente(long codigoCliente, Cliente clienteNuevo){
-        clienteRepo.findById(codigoCliente).orElseThrow( () -> new ClienteNoEncontradoException("El cliente no existe") );
-        //clienteNuevo.setCodigo(codigoCliente);
-        return clienteRepo.save(clienteNuevo);
+    public ClienteDtoGet updateCliente(long codigoCliente, ClienteDtoPost clienteNuevo){
+        obtenerCliente(codigoCliente);
+        Cliente nuevo = convertir(clienteNuevo);
+        nuevo.setCodigo(codigoCliente);
+        return convertirClienteAClienteDto( clienteRepo.save(nuevo) );
     }
 
-    public List<ClienteDto> findAll(){
+    public List<ClienteDtoGet> findAll(){
         return clienteRepo.findAll()
                 .stream()
                 .map(c -> convertirClienteAClienteDto(c))
                 .collect(Collectors.toList());
+    }
+
+    private Cliente obtenerCliente(Long codigoCliente){
+        return clienteRepo.findById(codigoCliente).orElseThrow( () -> new ClienteNoEncontradoException("El cliente no existe") );
+    }
+    private Cliente convertir(ClienteDtoPost cliente){
+        return Cliente.builder()
+                .nombre(cliente.nombre())
+                .email(cliente.email())
+                .telefono(cliente.telefono())
+                .password(cliente.password()).build();
     }
 
 }

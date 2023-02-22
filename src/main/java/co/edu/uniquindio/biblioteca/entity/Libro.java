@@ -7,14 +7,16 @@ import jakarta.persistence.ManyToMany;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Data
-@Slf4j
-public class Libro {
+@Builder
+@AllArgsConstructor
+public class Libro implements Serializable {
 
     @Id
     private String isbn;
@@ -23,15 +25,15 @@ public class Libro {
     private String nombre;
 
     @Column(nullable = false)
-    private String genero;
+    private Genero genero;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int unidades;
-
-    @ManyToMany
-    private List<Autor> autor;
 
     @Column(nullable = false)
     private LocalDate fechaPublicacion;
+
+    @ManyToMany
+    private List<Autor> autor;
 
 }

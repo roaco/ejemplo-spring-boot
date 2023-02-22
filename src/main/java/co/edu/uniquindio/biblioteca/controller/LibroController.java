@@ -19,15 +19,15 @@ public class LibroController {
     public Libro save(@RequestBody Libro libro){
         return libroServicio.saveLibro(libro);
     }
-    @GetMapping("/{isbn}")
-    public LibroDto findById(@PathVariable String isbn){
-        return libroServicio.findLibroById(isbn);
-    }
+//    @GetMapping("/{isbn}")
+//    public LibroDto findById(@PathVariable String isbn){
+//        return libroServicio.findLibroById(isbn);
+//    }
 
-    @GetMapping
-    public List<LibroDto> findAll(){
-        return libroServicio.findAll();
-    }
+//    @GetMapping
+//    public List<LibroDto> findAll(){
+//        return libroServicio.findAll();
+//    }
 
     @DeleteMapping("/{isbn}")
     public String delete(@PathVariable String isbn){

@@ -19,14 +19,14 @@ public class LibroServicio {
         return libroRepo.save(libro);
     }
 
-    public LibroDto findLibroById(String isbn){
-        Libro libro = libroRepo.findById(isbn).orElseThrow(() -> new LibroNoEncontradoException("El libro no existe"));
-        return  convertirLibroALibroDto(libro);
-    }
+//    public LibroDto findLibroById(String isbn){
+//        Libro libro = libroRepo.findById(isbn).orElseThrow(() -> new LibroNoEncontradoException("El libro no existe"));
+//        return  convertirLibroALibroDto(libro);
+//    }
 
-    private LibroDto convertirLibroALibroDto(Libro libro){
-        return  new LibroDto(libro.getIsbn(), libro.getNombre(), libro.getGenero(), libro.getUnidades(), libro.getFechaPublicacion());
-    }
+//    private LibroDto convertirLibroALibroDto(Libro libro){
+//        return  new LibroDto(libro.getIsbn(), libro.getNombre(), libro.getGenero(), libro.getUnidades(), libro.getFechaPublicacion());
+//    }
 
     public void deleteLibro(String isbn){
         libroRepo.findById(isbn).orElseThrow(() -> new LibroNoEncontradoException("El libro no existe"));
@@ -38,10 +38,10 @@ public class LibroServicio {
         return libroRepo.save(libroNuevo);
     }
 
-    public List<LibroDto>findAll(){
-        return libroRepo.findAll()
-                .stream()
-                .map(l -> convertirLibroALibroDto(l))
-                .collect(Collectors.toList());
-    }
+//    public List<LibroDto>findAll(){
+//        return libroRepo.findAll()
+//                .stream()
+//                .map(l -> convertirLibroALibroDto(l))
+//                .collect(Collectors.toList());
+//    }
 }
