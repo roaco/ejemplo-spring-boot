@@ -18,7 +18,7 @@ public class ClienteServicio {
     private final ClienteRepo clienteRepo;
 
     public ClienteDtoGet saveCliente(ClienteDtoPost cliente){
-        return convertirClienteAClienteDto(clienteRepo.save(convertir(cliente)));
+        return convertirClienteAClienteDto(clienteRepo.save(convertirClienteDtoACliente(cliente)));
     }
 
 
@@ -38,7 +38,7 @@ public class ClienteServicio {
 
     public ClienteDtoGet updateCliente(long codigoCliente, ClienteDtoPost clienteNuevo){
         obtenerCliente(codigoCliente);
-        Cliente nuevo = convertir(clienteNuevo);
+        Cliente nuevo = convertirClienteDtoACliente(clienteNuevo);
         nuevo.setCodigo(codigoCliente);
         return convertirClienteAClienteDto( clienteRepo.save(nuevo) );
     }
@@ -53,7 +53,7 @@ public class ClienteServicio {
     private Cliente obtenerCliente(Long codigoCliente){
         return clienteRepo.findById(codigoCliente).orElseThrow( () -> new ClienteNoEncontradoException("El cliente no existe") );
     }
-    private Cliente convertir(ClienteDtoPost cliente){
+    private Cliente convertirClienteDtoACliente(ClienteDtoPost cliente){
         return Cliente.builder()
                 .nombre(cliente.nombre())
                 .email(cliente.email())

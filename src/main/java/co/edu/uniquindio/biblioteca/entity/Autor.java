@@ -1,6 +1,7 @@
 package co.edu.uniquindio.biblioteca.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,5 +15,10 @@ public class Autor {
     private long id;
     @Column(nullable = false)
     private String nombre;
+
+    @Builder
+    public Autor(String nombre) {
+        this.nombre = nombre;
+    }
 
 }
