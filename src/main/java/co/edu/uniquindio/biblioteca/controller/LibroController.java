@@ -1,9 +1,12 @@
 package co.edu.uniquindio.biblioteca.controller;
 
 import co.edu.uniquindio.biblioteca.dto.LibroDto;
+import co.edu.uniquindio.biblioteca.dto.Respuesta;
 import co.edu.uniquindio.biblioteca.entity.Libro;
 import co.edu.uniquindio.biblioteca.servicios.LibroServicio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,27 +19,23 @@ public class LibroController {
     private final LibroServicio libroServicio;
 
     @PostMapping
-    public Libro save(@RequestBody Libro libro){
-        return libroServicio.saveLibro(libro);
+    public ResponseEntity<Respuesta<Libro>> save(@RequestBody LibroDto libroDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(new Respuesta<>("Libro creado correctamente", libroServicio.save(libroDTO)));
     }
-//    @GetMapping("/{isbn}")
-//    public LibroDto findById(@PathVariable String isbn){
-//        return libroServicio.findLibroById(isbn);
-//    }
 
-//    @GetMapping
-//    public List<LibroDto> findAll(){
-//        return libroServicio.findAll();
-//    }
+    @GetMapping
+    public ResponseEntity<Respuesta<List<Libro>>> findAll() {
+        return ResponseEntity.status(HttpStatus.OK).body(new Respuesta<>("", libroServicio.findAll()));
+    }
+
+    @GetMapping("/{isbnLibro}")
+    public ResponseEntity<Respuesta<Libro>> findById(@PathVariable String isbnLibro){
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("", libroServicio.findById(isbnLibro)) );
+    }
 
     @DeleteMapping("/{isbn}")
-    public String delete(@PathVariable String isbn){
+    public String delete(@PathVariable String isbn) {
         libroServicio.deleteLibro(isbn);
         return "Libro eliminado";
-    }
-
-    @PutMapping("/{isbn}")
-    public Libro update(@PathVariable String isbn, @RequestBody Libro libro){
-        return libroServicio.updateLibro(isbn, libro);
     }
 }

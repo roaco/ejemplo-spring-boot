@@ -34,6 +34,6 @@ public class Libro implements Serializable {
     private LocalDate fechaPublicacion;
 
     @ManyToMany
-    private List<Autor> autor;
+    private List<Autor> autores;
 
 }
