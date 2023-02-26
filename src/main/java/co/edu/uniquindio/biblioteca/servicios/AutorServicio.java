@@ -28,14 +28,26 @@ public class AutorServicio {
         return new AutorDto(autor.getId(), autor.getNombre());
     }
 
-    public void deleteAutor(long codigoAutor){
-        autorRepo.findById(codigoAutor).orElseThrow(() -> new AutorNoEncontradoException("Autor no existe"));
-        autorRepo.deleteById(codigoAutor);
+    public void deleteAutor(long idAutor){
+        obtenerAutor(idAutor);
+        autorRepo.deleteById(idAutor);
     }
 
-    public Autor updateAutor(long codigoAutor, Autor autorNuevo){
-        autorRepo.findById(codigoAutor).orElseThrow(() -> new AutorNoEncontradoException("Autor no existe"));
-        return autorRepo.save(autorNuevo);
+    public AutorDto updateAutor(long codigoAutor, AutorDto autorNuevo){
+        obtenerAutor(codigoAutor);
+        Autor autorN = convertirAutorDtoAAutor(autorNuevo);
+        autorN.setId(codigoAutor);
+        return convertirAutorAAutorDto(autorRepo.save(autorN));
+    }
+
+    private Autor convertirAutorDtoAAutor(AutorDto autorNuevo) {
+        return  Autor.builder()
+                .nombre(autorNuevo.nombre())
+                .build();
+    }
+
+    private Autor obtenerAutor (Long idAutor){
+        return autorRepo.findById(idAutor).orElseThrow(() -> new AutorNoEncontradoException("Autor no existe"));
     }
 
     public List<AutorDto> findAll(){

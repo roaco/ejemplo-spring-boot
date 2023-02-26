@@ -1,9 +1,14 @@
 package co.edu.uniquindio.biblioteca.controller;
 
 import co.edu.uniquindio.biblioteca.dto.AutorDto;
+import co.edu.uniquindio.biblioteca.dto.ClienteDtoGet;
+import co.edu.uniquindio.biblioteca.dto.ClienteDtoPost;
+import co.edu.uniquindio.biblioteca.dto.Respuesta;
 import co.edu.uniquindio.biblioteca.entity.Autor;
 import co.edu.uniquindio.biblioteca.servicios.AutorServicio;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,14 +36,14 @@ public class AutorController {
     }
 
     @DeleteMapping("{idAutor}")
-    public String delete(@PathVariable long idAutor) {
+    public ResponseEntity<Respuesta<String>> delete(@PathVariable long idAutor){
         autorServicio.deleteAutor(idAutor);
-        return "Se elimino autor";
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("Autor eliminado correctamente") );
     }
 
     @PutMapping("{idAutor}")
-    public Autor update(@PathVariable long idAutor, @RequestBody Autor autorNuevo) {
-        return autorServicio.updateAutor(idAutor, autorNuevo);
+    public ResponseEntity<Respuesta<AutorDto>> update(@PathVariable long idAutor, @RequestBody AutorDto autorDto){
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("El cliente se modificó correctamente", autorServicio.updateAutor(idAutor, autorDto)));
     }
 
 }
