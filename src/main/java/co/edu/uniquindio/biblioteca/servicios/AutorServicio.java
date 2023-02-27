@@ -25,7 +25,7 @@ public class AutorServicio {
     }
 
     private AutorDto convertirAutorAAutorDto(Autor autor){
-        return new AutorDto(autor.getId(), autor.getNombre());
+        return new AutorDto(autor.getIdAutores(), autor.getNombre());
     }
 
     public void deleteAutor(long idAutor){
@@ -36,7 +36,7 @@ public class AutorServicio {
     public AutorDto updateAutor(long codigoAutor, AutorDto autorNuevo){
         obtenerAutor(codigoAutor);
         Autor autorN = convertirAutorDtoAAutor(autorNuevo);
-        autorN.setId(codigoAutor);
+        autorN.setIdAutores(codigoAutor);
         return convertirAutorAAutorDto(autorRepo.save(autorN));
     }
 

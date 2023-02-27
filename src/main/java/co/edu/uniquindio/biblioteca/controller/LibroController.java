@@ -38,4 +38,9 @@ public class LibroController {
         libroServicio.deleteLibro(isbn);
         return "Libro eliminado";
     }
+
+    @PutMapping("/{isbn}")
+    public ResponseEntity<Respuesta<Libro>> update(@PathVariable String isbn, @RequestBody LibroDto libro){
+        return ResponseEntity.status(HttpStatus.OK).body( new Respuesta<>("El libro se actualizo correctamente", libroServicio.updateLibro(isbn, libro)) );
+    }
 }
