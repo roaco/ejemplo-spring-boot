@@ -6,7 +6,6 @@ import co.edu.uniquindio.biblioteca.entity.Libro;
 import co.edu.uniquindio.biblioteca.repo.AutorRepo;
 import co.edu.uniquindio.biblioteca.repo.LibroRepo;
 import co.edu.uniquindio.biblioteca.servicios.excepciones.AutorNoEncontradoException;
-import co.edu.uniquindio.biblioteca.servicios.excepciones.ClienteNoEncontradoException;
 import co.edu.uniquindio.biblioteca.servicios.excepciones.LibroNoEncontradoException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
