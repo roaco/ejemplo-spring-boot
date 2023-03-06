@@ -1,6 +1,6 @@
 package co.edu.uniquindio.biblioteca.servicios;
 
-import co.edu.uniquindio.biblioteca.dto.LibroDto;
+import co.edu.uniquindio.biblioteca.dto.libro.LibroDto;
 import co.edu.uniquindio.biblioteca.entity.Autor;
 import co.edu.uniquindio.biblioteca.entity.Libro;
 import co.edu.uniquindio.biblioteca.repo.AutorRepo;
@@ -14,12 +14,19 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author roaco
+ */
 @Service
 @AllArgsConstructor
 public class LibroServicio {
     private final LibroRepo libroRepo;
     private final AutorRepo autorRepo;
 
+    /**
+     * @param libro
+     * @return
+     */
     public Libro save(LibroDto libro) {
         Optional<Libro> guardado = libroRepo.findById(libro.isbn());
         if (guardado.isPresent()) {
@@ -28,14 +35,25 @@ public class LibroServicio {
         return libroRepo.save(convertirLibroDtoALibro(libro));
     }
 
+    /**
+     * @param isbn
+     * @return
+     */
     public Libro findById(String isbn) {
         return libroRepo.findById(isbn).orElseThrow(() -> new LibroNoEncontradoException("El libro no existe"));
     }
 
+    /**
+     * @return
+     */
     public List<Libro> findAll() {
         return libroRepo.findAll();
     }
 
+    /**
+     * @param libro
+     * @return
+     */
     private Libro convertirLibroDtoALibro(LibroDto libro) {
         List<Autor> autores = autorRepo.findAllById(libro.idAutores());
 
@@ -64,11 +82,19 @@ public class LibroServicio {
     }
 
 
+    /**
+     * @param isbn
+     */
     public void deleteLibro(String isbn) {
         libroRepo.findById(isbn).orElseThrow(() -> new LibroNoEncontradoException("El libro no existe"));
         libroRepo.deleteById(isbn);
     }
 
+    /**
+     * @param isbn
+     * @param libroNuevo
+     * @return
+     */
     public Libro updateLibro(String isbn, LibroDto libroNuevo) {
         obtenerLibro(isbn);
         Libro libroN = convertirLibroDtoALibro(libroNuevo);
@@ -76,6 +102,10 @@ public class LibroServicio {
         return libroRepo.save(libroN);
     }
 
+    /**
+     * @param isbn
+     * @return
+     */
     private Libro obtenerLibro(String isbn) {
         return libroRepo.findById(isbn).orElseThrow(() -> new LibroNoEncontradoException("El libro no existe"));
     }

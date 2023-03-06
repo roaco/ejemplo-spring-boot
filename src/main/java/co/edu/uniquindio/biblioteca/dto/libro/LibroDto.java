@@ -1,4 +1,4 @@
-package co.edu.uniquindio.biblioteca.dto;
+package co.edu.uniquindio.biblioteca.dto.libro;
 
 import co.edu.uniquindio.biblioteca.entity.Autor;
 import co.edu.uniquindio.biblioteca.entity.Genero;
