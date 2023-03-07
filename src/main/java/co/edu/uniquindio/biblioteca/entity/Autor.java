@@ -1,7 +1,7 @@
 package co.edu.uniquindio.biblioteca.entity;
 
-import jakarta.persistence.*;
-import lombok.Builder;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,14 +11,8 @@ import lombok.NoArgsConstructor;
 public class Autor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idAutores;
-    @Column(nullable = false)
-    private String nombre;
+    private long id;
 
-    @Builder
-    public Autor(String nombre) {
-        this.nombre = nombre;
-    }
+    private String nombre;
 
 }
