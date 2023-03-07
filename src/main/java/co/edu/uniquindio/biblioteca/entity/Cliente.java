@@ -5,13 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Data
-public class Cliente implements Serializable {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +37,5 @@ public class Cliente implements Serializable {
         this.telefono = telefono;
         this.password = password;
     }
+
 }
